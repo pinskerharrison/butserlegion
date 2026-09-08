@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/events.mjs';
+import Arrow from './Arrow.astro';
+interface Props { event: CollectionEntry<'events'>; }
+const { event } = Astro.props;
+const e = event.data;
+---
+<article class:list={['event-row', { cancelled: e.cancelled }]}>
+  <div class="event-date" aria-hidden="true"><span>{formatDate(e.startDate, { month: 'short' })}</span><strong>{e.startDate.slice(8)}</strong><span>{formatDate(e.startDate, { weekday: 'short' })}</span></div>
+  <div class="event-info">
+    <div class="event-labels">{e.cancelled && <span class="status">Cancelled</span>}{e.featured && !e.cancelled && <span class="featured">Featured event</span>}</div>
+    <h3><a href={`/events/${e.slug}/`}>{e.title}</a></h3>
+    <p class="event-meta"><time datetime={e.startDate}>{formatDate(e.startDate)}</time>{e.endDate && e.endDate !== e.startDate && <> – <time datetime={e.endDate}>{formatDate(e.endDate)}</time></>}<span> · </span>{e.startTime}{e.endTime && `–${e.endTime}`} <span class="time-zone">UK time</span></p>
+    <p>{e.venue}</p>
+    <p class="event-summary">{e.summary}</p>
+  </div>
+  <span class="event-arrow" aria-hidden="true"><Arrow /></span>
+</article>

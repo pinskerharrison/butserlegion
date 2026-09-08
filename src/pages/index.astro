@@ -1,0 +1,20 @@
+---
+import { getEntry, getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Photo from '../components/Photo.astro';
+import Arrow from '../components/Arrow.astro';
+import EventRow from '../components/EventRow.astro';
+import { isUpcoming, sortEvents } from '../lib/events.mjs';
+const home = (await getEntry('pages', 'home'))!;
+const { Content } = await render(home);
+const events = sortEvents(await getCollection('events')).filter(e => isUpcoming(e.data) && !e.data.cancelled).slice(0, 4);
+---
+<Layout title="Roman living history in Hampshire" description={home.data.description}>
+  <section class="hero">
+    <div class="hero-copy"><h1>{home.data.title}</h1><p>{home.data.intro}</p><a class="button button-light" href="/events/">{home.data.ctaText || 'Explore our events'}<Arrow /></a><a class="hero-secondary" href="/join/">Become part of the story</a></div>
+    <div class="hero-photo">{home.data.image && <Photo src={home.data.image} alt={home.data.imageAlt!} eager />}<span class="photo-caption">Butser IX Legion · Hampshire</span></div>
+  </section>
+  <section class="home-intro section-wrap"><div class="intro-word" aria-hidden="true">Ave.</div><div class="prose"><Content /><a class="text-link" href="/about/">Get to know the Legion <Arrow /></a></div></section>
+  <section class="events-section section-wrap"><div class="section-heading"><div><h2>Meet us in the present.<br />Step into the past.</h2><p>Find the Legion at a museum, a heritage event or our home at Butser.</p></div><a class="text-link" href="/events/">All events <Arrow /></a></div><div class="event-list">{events.length ? events.map(event => <EventRow event={event} />) : <div class="empty-state"><h3>A new chapter is on its way.</h3><p>There are no upcoming dates listed just now. <a href="/contact/">Contact us</a> to ask about the next chance to meet the Legion.</p></div>}</div></section>
+  <section class="join-banner"><Photo src="/src/assets/images/join-the-legion.webp" alt="Legion members bringing Roman history to life" /><div><h2>Curiosity is all<br />you need to start.</h2><p>Armour is optional. Enthusiasm isn’t. Explore the everyday lives, skills and stories of the Romans with us.</p><a class="button button-dark" href="/join/">Join the Legion <Arrow /></a><a class="text-link" href="/book-the-legion/">Or bring us to your event <Arrow /></a></div></section>
+</Layout>

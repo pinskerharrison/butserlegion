@@ -1,0 +1,16 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Photo from '../components/Photo.astro';
+import Arrow from '../components/Arrow.astro';
+export async function getStaticPaths() {
+  return (await getCollection('pages')).filter(p => p.id !== 'home').map(page => ({ params: { page: page.id }, props: { page } }));
+}
+const { page } = Astro.props;
+const { Content } = await render(page);
+const contact = (await getEntry('settings', 'contact'))!.data;
+---
+<Layout title={page.data.title} description={page.data.description}>
+  <section class:list={['page-heading', { 'with-image': !!page.data.image }]}><div><a class="breadcrumb" href="/">Home /</a><h1>{page.data.title}</h1><p class="lead">{page.data.intro}</p></div>{page.data.image && <Photo src={page.data.image} alt={page.data.imageAlt!} eager />}</section>
+  <div class="article-layout section-wrap"><article class="prose"><Content /></article><aside class="contact-panel"><h2>{page.id === 'book-the-legion' ? 'Let’s plan something memorable.' : page.id === 'join' ? 'Your story starts here.' : 'Come and meet us.'}</h2><p>Get in touch with the Legion.</p><a class="email-link" href={`mailto:${contact.email}`}>{contact.email}</a><hr /><h3>Our home</h3><p>{contact.venue}<br />{contact.address}</p><a class="text-link" href={contact.venueUrl}>Visit the farm website <Arrow /></a><a class="text-link" href="/events/">Find an event <Arrow /></a></aside></div>
+</Layout>

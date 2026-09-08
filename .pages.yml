@@ -1,0 +1,126 @@
+media:
+  input: src/assets/images
+  output: /src/assets/images
+  extensions: [jpg, jpeg, png, webp, avif]
+  rename: safe
+
+content:
+  - name: home
+    label: Homepage
+    type: file
+    path: src/content/pages/home.md
+    format: yaml-frontmatter
+    fields:
+      - {name: title, label: Main heading, type: string, required: true}
+      - {name: description, label: Search and sharing description, type: text, required: true}
+      - {name: intro, label: Introduction, type: text, required: true}
+      - {name: image, label: Main photograph, type: image}
+      - {name: imageAlt, label: Describe the photograph, type: string, description: Required when a photograph is selected. Describe what can be seen for people who cannot see it.}
+      - {name: ctaText, label: Events button wording, type: string, description: Optional. This button always opens the Events page.}
+      - {name: body, label: Additional homepage copy, type: rich-text}
+
+  - name: events
+    label: Events
+    type: collection
+    path: src/content/events
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    subfolders: false
+    view:
+      primary: title
+      fields: [title, startDate, venue, cancelled]
+      sort: startDate
+      order: asc
+    fields:
+      - {name: title, label: Event name, type: string, required: true}
+      - name: slug
+        label: Event web address name
+        type: string
+        required: true
+        description: 'A unique short name, for example butser-farm-july-2027. Use lowercase letters, numbers and hyphens. Keep this unchanged after publishing to preserve links. Do not use archive.'
+        pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+      - name: startDate
+        label: Start date
+        type: date
+        required: true
+        options: {format: yyyy-MM-dd, time: false}
+      - name: endDate
+        label: End date (if more than one day)
+        type: date
+        default: ''
+        options: {format: yyyy-MM-dd, time: false}
+      - name: startTime
+        label: Start time (UK time)
+        type: string
+        required: true
+        default: '10:00'
+        description: 'Enter 24-hour time, for example 10:00 or 14:30.'
+        pattern: '^([01][0-9]|2[0-3]):[0-5][0-9]$'
+      - name: endTime
+        label: End time (optional, UK time)
+        type: string
+        description: 'Enter 24-hour time, for example 16:00. For overnight events also set the end date.'
+        pattern: '^([01][0-9]|2[0-3]):[0-5][0-9]$'
+      - {name: venue, label: Venue name, type: string, required: true}
+      - {name: address, label: Address and postcode, type: text, required: true}
+      - {name: summary, label: Short description, type: text, required: true, description: One or two sentences shown in the event list. State clearly if this is a private or prebooked event.}
+      - {name: body, label: Full event description, type: rich-text, required: true}
+      - {name: image, label: Event photograph (optional), type: image}
+      - {name: imageAlt, label: Describe the photograph, type: string, description: Required when a photograph is selected.}
+      - {name: externalUrl, label: Venue or booking website (optional), type: string, description: 'Use the full https:// address.'}
+      - {name: featured, label: Mark as featured, type: boolean, default: false, description: Adds a featured label. Events always stay in date order.}
+      - {name: cancelled, label: Event is cancelled, type: boolean, default: false, description: Keeps the event page with a clear cancellation notice and removes it from the homepage.}
+
+  - name: about
+    label: About the Legion
+    type: file
+    path: src/content/pages/about.md
+    fields: &page_fields
+      - {name: title, label: Page heading, type: string, required: true}
+      - {name: description, label: Search and sharing description, type: text, required: true}
+      - {name: intro, label: Introduction, type: text, required: true}
+      - {name: image, label: Photograph (optional), type: image}
+      - {name: imageAlt, label: Describe the photograph, type: string, description: Required when a photograph is selected.}
+      - {name: body, label: Page text, type: rich-text}
+  - name: join
+    label: Joining and membership
+    type: file
+    path: src/content/pages/join.md
+    fields: *page_fields
+  - name: booking
+    label: Booking the Legion
+    type: file
+    path: src/content/pages/book-the-legion.md
+    fields: *page_fields
+  - name: contact_page
+    label: Contact page text
+    type: file
+    path: src/content/pages/contact.md
+    fields: *page_fields
+  - name: memories
+    label: Visitor memories
+    type: file
+    path: src/content/pages/visitors-said.md
+    fields: *page_fields
+  - name: contact
+    label: Contact details
+    type: file
+    path: src/content/settings/contact.yaml
+    format: yaml
+    fields:
+      - {name: email, label: Public Legion email address, type: string, required: true}
+      - {name: venue, label: Home venue, type: string, required: true}
+      - {name: address, label: Venue address, type: text, required: true}
+      - {name: venueUrl, label: Venue website, type: string, required: true, description: 'Use a full https:// address.'}
+  - name: gallery
+    label: Gallery photographs
+    type: collection
+    path: src/content/gallery
+    format: yaml-frontmatter
+    filename: '{primary}.md'
+    view: {primary: title, sort: order, order: asc}
+    fields:
+      - {name: title, label: Caption, type: string, required: true}
+      - {name: image, label: Photograph, type: image, required: true}
+      - {name: imageAlt, label: Describe the photograph, type: string, required: true}
+      - {name: order, label: Display order, type: number, required: true, default: 5}
