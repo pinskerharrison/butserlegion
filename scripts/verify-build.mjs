@@ -16,9 +16,21 @@ for (const file of htmlFiles) {
   for (const match of html.matchAll(/(?:href|src)="([^"#]+)(?:#[^"]*)?"/g)) {
     const value = match[1].replace(/&amp;/g,'&');
     if (!value.startsWith('/') || value.startsWith('//')) continue;
-    const url = new URL(value,'https://butserlegion.co.uk');
-    const local = resolve('dist', '.' + decodeURIComponent(url.pathname));
-    const target = url.pathname.endsWith('/') ? join(local,'index.html') : local;
+      const url = new URL(value, 'https://pinskerharrison.github.io');
+
+      const base = '/butserlegion';
+      let pathname = decodeURIComponent(url.pathname);
+
+      // GitHub Pages serves the site under /butserlegion,
+      // but that prefix does not exist inside dist/.
+      if (pathname === base) {
+        pathname = '/';
+      } else if (pathname.startsWith(base + '/')) {
+        pathname = pathname.slice(base.length);
+      }
+
+      const local = resolve('dist', '.' + pathname);
+      const target = pathname.endsWith('/') ? join(local, 'index.html') : local;
     try { assert.ok((await stat(target)).isFile()); } catch { throw new Error(`Broken internal link: ${file} → ${value}`); }
     links++;
   }
