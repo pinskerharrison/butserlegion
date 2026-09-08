@@ -3,11 +3,12 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import EventRow from '../../components/EventRow.astro';
 import { isUpcoming, sortEvents, formatDate } from '../../lib/events.mjs';
+import { withBase } from '../../lib/paths';
 const entries = sortEvents(await getCollection('events'));
 const upcoming = entries.filter(e => isUpcoming(e.data));
 const months = [...new Set(upcoming.map(e => e.data.startDate.slice(0, 7)))];
 ---
 <Layout title="Events" description="Find upcoming Butser IX Legion events, dates and venues. Meet Roman reenactors at Butser Ancient Farm and beyond.">
-  <section class="page-heading"><div><h1>A date with<br />Roman history.</h1><p class="lead">Meet the Legion, ask questions and discover the Roman world. Here’s where you’ll find us next.</p><a class="text-link" href="/events/archive/">Explore past events</a></div></section>
-  <section class="section-wrap calendar"><div class="calendar-note"><p>All times are local UK time. Check the venue’s visitor information before you travel.</p><a href="/contact/">Questions about a visit?</a></div>{months.length ? months.map(month => <section class="month-section"><h2>{formatDate(`${month}-01`, { month: 'long', year: 'numeric' })}</h2><div class="event-list">{upcoming.filter(e => e.data.startDate.startsWith(month)).map(event => <EventRow event={event} />)}</div></section>) : <div class="empty-state"><h2>New dates will be announced here.</h2><p>No upcoming events are currently listed. <a href="/contact/">Contact the Legion</a> to find out more.</p></div>}</section>
+  <section class="page-heading"><div><h1>A date with<br />Roman history.</h1><p class="lead">Meet the Legion, ask questions and discover the Roman world. Here’s where you’ll find us next.</p><a class="text-link" href={withBase('/events/archive/')}>Explore past events</a></div></section>
+  <section class="section-wrap calendar"><div class="calendar-note"><p>All times are local UK time. Check the venue’s visitor information before you travel.</p><a href={withBase('/contact/')}>Questions about a visit?</a></div>{months.length ? months.map(month => <section class="month-section"><h2>{formatDate(`${month}-01`, { month: 'long', year: 'numeric' })}</h2><div class="event-list">{upcoming.filter(e => e.data.startDate.startsWith(month)).map(event => <EventRow event={event} />)}</div></section>) : <div class="empty-state"><h2>New dates will be announced here.</h2><p>No upcoming events are currently listed. <a href={withBase('/contact/')}>Contact the Legion</a> to find out more.</p></div>}</section>
 </Layout>

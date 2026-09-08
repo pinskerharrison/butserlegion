@@ -3,11 +3,12 @@ import '../styles/global.css';
 import '@fontsource/cinzel/latin-400.css';
 import '@fontsource/cinzel/latin-500.css';
 import { getEntry } from 'astro:content';
+import { withBase } from '../lib/paths';
 interface Props { title: string; description: string; image?: string; noindex?: boolean; }
 const { title, description, image = '/social.jpg', noindex = false } = Astro.props;
 const contact = (await getEntry('settings', 'contact'))!.data;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const links = [['/', 'Home'], ['/about/', 'The Legion'], ['/events/', 'Events'], ['/gallery/', 'Gallery'], ['/join/', 'Join us'], ['/contact/', 'Contact']];
+const links = [[withBase('/'), 'Home'], [withBase('/about/'), 'The Legion'], [withBase('/events/'), 'Events'], [withBase('/gallery/'), 'Gallery'], [withBase('/join/'), 'Join us'], [withBase('/contact/'), 'Contact']];
 const active = (href: string) => href === '/' ? Astro.url.pathname === '/' : Astro.url.pathname.startsWith(href);
 ---
 <!doctype html>
@@ -39,14 +40,14 @@ const active = (href: string) => href === '/' ? Astro.url.pathname === '/' : Ast
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="Butser IX Legion home"><span class="brand-mark" aria-hidden="true">IX</span><span class="brand-name">Butser <span>IX Legion</span></span></a>
+      <a class="brand" href={withBase('/')} aria-label="Butser IX Legion home"><span class="brand-mark" aria-hidden="true">IX</span><span class="brand-name">Butser <span>IX Legion</span></span></a>
       <nav class="desktop-nav" aria-label="Main navigation">{links.map(([href, label]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{label}</a>)}</nav>
       <details class="mobile-menu"><summary>Menu <span aria-hidden="true">+</span></summary><nav aria-label="Mobile navigation">{links.map(([href, label]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{label}</a>)}</nav></details>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer">
-      <div class="footer-top"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">IX</span><span class="brand-name">Butser <span>IX Legion</span></span></a><p>The Roman world.<br />A little closer.</p><div><a href={`mailto:${contact.email}`}>{contact.email}</a><p>Based at {contact.venue}<br />Hampshire, England</p></div></div>
-      <div class="footer-bottom"><span>© {new Date().getFullYear()} Butser IX Legion</span><nav aria-label="Footer navigation"><a href="/book-the-legion/">Book the Legion</a><a href="/visitors-said/">Visitors’ memories</a><a href="/privacy/">Privacy</a></nav><span>Living history, shared.</span></div>
+      <div class="footer-top"><a class="brand" href={withBase('/')}><span class="brand-mark" aria-hidden="true">IX</span><span class="brand-name">Butser <span>IX Legion</span></span></a><p>The Roman world.<br />A little closer.</p><div><a href={`mailto:${contact.email}`}>{contact.email}</a><p>Based at {contact.venue}<br />Hampshire, England</p></div></div>
+      <div class="footer-bottom"><span>© {new Date().getFullYear()} Butser IX Legion</span><nav aria-label="Footer navigation"><a href={withBase('/book-the-legion/')}>Book the Legion</a><a href={withBase('/visitors-said/')}>Visitors’ memories</a><a href={withBase('/privacy/')}>Privacy</a></nav><span>Living history, shared.</span></div>
     </footer>
   </body>
 </html>
