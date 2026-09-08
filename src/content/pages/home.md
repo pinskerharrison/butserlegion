@@ -1,9 +1,12 @@
 ---
 title: Bringing Roman life to life.
-description: Meet the Butser IX Legion. Discover Roman life, visit a living-history event or join our reenactment group in Hampshire.
-intro: Step into the world of the Romans with the Butser IX Legion — a living-history group based at Butser Ancient Farm in Hampshire.
+description: Meet the Butser IX Legion. Discover Roman life, visit a
+  living-history event or join our reenactment group in Hampshire.
+intro: Step into the world of the Romans with the Butser IX Legion! We're a
+  living-history group based at Butser Ancient Farm in Hampshire.
 image: /src/assets/images/legion-group.webp
-imageAlt: Members of the Butser IX Legion in Roman clothing and armour at Butser Ancient Farm
+imageAlt: Members of the Butser IX Legion in Roman clothing and armour at Butser
+  Ancient Farm
 ctaText: Find your next Roman adventure
 ---
 ## More than an army. A way of life.
