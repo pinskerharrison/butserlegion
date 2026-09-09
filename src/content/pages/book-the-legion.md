@@ -1,7 +1,7 @@
 ---
-title: Bring Roman history to your event.
+title: Book the Legion
 description: Contact the Butser IX Legion about Roman living-history demonstrations for museums, heritage events and schools.
-intro: Give your visitors a closer encounter with the Roman world. Talk to us about a demonstration for your museum, school or heritage event.
+intro: If you would like a Roman demonstration at your event, get in touch to discuss dates and what we can offer.
 image: /src/assets/images/standard-bearer.webp
 imageAlt: A Legion reenactor carrying the Roman eagle standard
 ---
@@ -11,7 +11,7 @@ The Legion has appeared at community and heritage events, including Milland Rura
 
 Email us with the date, location, audience and the kind of experience you have in mind. Let us know the expected visitor numbers and any access requirements so we can discuss what is practical.
 
-## The details matter
+## Planning the visit
 
 Activities, availability and any costs are agreed directly with the Legion. Please ask for current insurance information and a risk assessment as part of planning your event.
 

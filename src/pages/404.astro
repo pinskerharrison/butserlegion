@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../lib/paths';
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Page not found" description="Find your way back to the Butser IX Legion website." noindex><section class="page-heading"><div><h1>This path ends here.</h1><p class="lead">We couldn’t find that page. The website has changed, and an old link may no longer lead to the right place.</p><a class="button button-dark" href="/">Return home</a> <a class="text-link" href="/events/">Find an event</a></div></section></Layout>
+<Layout title="Page not found" description="Find your way back to the Butser IX Legion website." noindex><section class="page-heading"><div><h1>Page not found</h1><p class="lead">We couldn’t find that page. Use the menu to find what you need, or return to the homepage.</p><a class="button button-dark" href={withBase('/')}>Return home</a> <a class="text-link" href={withBase('/events/')}>Find an event</a></div></section></Layout>

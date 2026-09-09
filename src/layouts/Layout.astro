@@ -8,8 +8,10 @@ interface Props { title: string; description: string; image?: string; noindex?: 
 const { title, description, image = '/social.jpg', noindex = false } = Astro.props;
 const contact = (await getEntry('settings', 'contact'))!.data;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const links = [[withBase('/'), 'Home'], [withBase('/about/'), 'The Legion'], [withBase('/events/'), 'Events'], [withBase('/gallery/'), 'Gallery'], [withBase('/join/'), 'Join us'], [withBase('/contact/'), 'Contact']];
-const active = (href: string) => href === '/' ? Astro.url.pathname === '/' : Astro.url.pathname.startsWith(href);
+const links = [['/', 'Home'], ['/about/', 'The Legion'], ['/events/', 'Events'], ['/gallery/', 'Gallery'], ['/visitors-said/', 'Visitors’ comments'], ['/join/', 'Join us'], ['/book-the-legion/', 'Book the Legion'], ['/contact/', 'Contact']].map(([path, label]) => [withBase(path), label]);
+const utilityLinks = [['/events/archive/', 'Past events'], ['/privacy/', 'Privacy']].map(([path, label]) => [withBase(path), label]);
+const currentLink = [...links, ...utilityLinks].map(([href]) => href).filter(href => href === withBase('/') ? Astro.url.pathname === href : Astro.url.pathname.startsWith(href)).sort((a, b) => b.length - a.length)[0];
+const active = (href: string) => href === currentLink;
 ---
 <!doctype html>
 <html lang="en-GB">
@@ -27,27 +29,27 @@ const active = (href: string) => href === '/' ? Astro.url.pathname === '/' : Ast
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Butser IX Legion" />
     <meta property="og:locale" content="en_GB" />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image" content={new URL(withBase(image), Astro.site)} />
     <meta property="og:image:alt" content="Butser IX Legion Roman reenactment group" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${title} | Butser IX Legion`} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:image" content={new URL(withBase(image), Astro.site)} />
     <meta name="theme-color" content="#651f2b" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
     <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <a class="brand" href={withBase('/')} aria-label="Butser IX Legion home"><span class="brand-mark" aria-hidden="true">IX</span><span class="brand-name">Butser <span>IX Legion</span></span></a>
-      <nav class="desktop-nav" aria-label="Main navigation">{links.map(([href, label]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{label}</a>)}</nav>
-      <details class="mobile-menu"><summary>Menu <span aria-hidden="true">+</span></summary><nav aria-label="Mobile navigation">{links.map(([href, label]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{label}</a>)}</nav></details>
+      <div class="header-navigation"><nav class="utility-nav" aria-label="More pages">{utilityLinks.map(([href, label]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{label}</a>)}</nav><nav class="desktop-nav" aria-label="Main navigation">{links.map(([href, label]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{label}</a>)}</nav></div>
+      <details class="mobile-menu"><summary>Menu <span aria-hidden="true">+</span></summary><nav aria-label="Mobile navigation">{links.map(([href, label]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{label}</a>)}<div class="mobile-utility">{utilityLinks.map(([href, label]) => <a href={href} aria-current={active(href) ? 'page' : undefined}>{label}</a>)}</div></nav></details>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer">
-      <div class="footer-top"><a class="brand" href={withBase('/')}><span class="brand-mark" aria-hidden="true">IX</span><span class="brand-name">Butser <span>IX Legion</span></span></a><p>The Roman world.<br />A little closer.</p><div><a href={`mailto:${contact.email}`}>{contact.email}</a><p>Based at {contact.venue}<br />Hampshire, England</p></div></div>
-      <div class="footer-bottom"><span>© {new Date().getFullYear()} Butser IX Legion</span><nav aria-label="Footer navigation"><a href={withBase('/book-the-legion/')}>Book the Legion</a><a href={withBase('/visitors-said/')}>Visitors’ memories</a><a href={withBase('/privacy/')}>Privacy</a></nav><span>Living history, shared.</span></div>
+      <div class="footer-top"><a class="brand" href={withBase('/')}><span class="brand-mark" aria-hidden="true">IX</span><span class="brand-name">Butser <span>IX Legion</span></span></a><p>Roman reenactment<br />in Hampshire</p><div><a href={`mailto:${contact.email}`}>{contact.email}</a><p>Based at {contact.venue}<br />Hampshire, England</p></div></div>
+      <div class="footer-bottom"><span>© {new Date().getFullYear()} Butser IX Legion</span><nav aria-label="Footer navigation"><a href={withBase('/book-the-legion/')}>Book the Legion</a><a href={withBase('/visitors-said/')}>Visitors’ comments</a><a href={withBase('/privacy/')}>Privacy</a></nav></div>
     </footer>
   </body>
 </html>

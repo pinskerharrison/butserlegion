@@ -11,6 +11,6 @@ externalUrl: "https://visitnewbury.org.uk/attractions/west-berkshire-museum/"
 featured: true
 cancelled: false
 ---
-The original listing gives a Newbury venue address but includes “Andover” in its title. Please check the location with the organiser before travelling.
+Please confirm the venue and visitor arrangements with the organiser before travelling.
 
 Contact the venue for visitor arrangements and admission.

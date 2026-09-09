@@ -1,9 +1,8 @@
 ---
-title: Memories of a Roman day.
+title: Visitors’ comments
 description: A look back at visitor feedback from Butser IX Legion
   demonstrations and school visits.
-intro: The armour makes an impression. So do the questions, the discoveries and
-  the chance to try something new.
+intro: Here are some of the things visitors have enjoyed at our demonstrations and school visits.
 ---
 ## From the visitor book
 

@@ -20,6 +20,7 @@ for (const file of htmlFiles) {
 
       const base = '/butserlegion';
       let pathname = decodeURIComponent(url.pathname);
+      assert.ok(pathname === base || pathname.startsWith(base + '/'), `Link misses the GitHub Pages base: ${file} → ${value}`);
 
       // GitHub Pages serves the site under /butserlegion,
       // but that prefix does not exist inside dist/.

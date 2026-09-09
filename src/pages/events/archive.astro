@@ -1,8 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
+import { withBase } from '../../lib/paths';
 import Layout from '../../layouts/Layout.astro';
 import EventRow from '../../components/EventRow.astro';
 import { isUpcoming, sortEvents } from '../../lib/events.mjs';
 const past = sortEvents(await getCollection('events')).filter(e => !isUpcoming(e.data)).reverse();
 ---
-<Layout title="Past events" description="Past Butser IX Legion events and visits."><section class="page-heading"><div><a class="breadcrumb" href="/events/">Events /</a><h1>Where we’ve been.</h1><p class="lead">A record of events from this programme, with the most recent first.</p></div></section><section class="section-wrap calendar"><div class="event-list">{past.length ? past.map(event => <EventRow event={event} />) : <div class="empty-state"><h2>The archive is ready for new memories.</h2><p>Events move here after their final day. <a href="/events/">See what’s coming up.</a></p></div>}</div></section></Layout>
+<Layout title="Past events" description="Past Butser IX Legion events and visits."><section class="page-heading"><div><a class="breadcrumb" href={withBase('/events/')}>Events /</a><h1>Past events</h1><p class="lead">A record of events from this programme, with the most recent first.</p></div></section><section class="section-wrap calendar"><div class="event-list">{past.length ? past.map(event => <EventRow event={event} />) : <div class="empty-state"><h2>No past events listed</h2><p>There are no past events in this programme yet. <a href={withBase('/events/')}>See what’s coming up.</a></p></div>}</div></section></Layout>

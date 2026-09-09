@@ -1,7 +1,7 @@
 ---
-title: Get in touch.
+title: Contact us
 description: Contact the Butser IX Legion about membership, demonstrations and events. Based at Butser Ancient Farm in Hampshire.
-intro: A question about joining, an event in mind, or simply curious about Roman life? We’d like to hear from you.
+intro: Email us about joining the group, booking a demonstration or visiting us at an event.
 ---
 ## Visiting the Legion
 
