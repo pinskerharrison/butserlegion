@@ -52,6 +52,8 @@ The intended production branch is **main**. This newly initialised checkout star
 
 Editors do not need to clone, use Git, edit frontmatter, run npm or operate GitHub Actions. An administrator handles initial access and any build failures. Give editors the direct CMS repository link after setup. There is no embedded CMS or private token in the public website.
 
+When an editor creates or changes a public event address, GitHub Actions validates it against OpenStreetMap’s Nominatim search service and writes the resulting latitude and longitude into that event’s Markdown file. The following deploy then displays a pinned map. Editors can choose a manual pin for a precise public meeting point, or no map for a private location.
+
 ## How the calendar works
 
 Events are sorted at build time by start date, then start time. The homepage shows the next four non-cancelled events, and the full list groups upcoming events by month. Featured is a label, not a sorting override. Schools-only attendance is explicitly stated in the migrated summary.
@@ -77,6 +79,6 @@ Review [migration notes](docs/migration-notes.md), especially the conflicting mu
 
 ## External dependencies
 
-Build time: npm packages in the lockfile (Astro, sitemap, schema tooling, image tooling and tests), GitHub Actions and its official Astro deployment action. Editing: hosted Pages CMS and GitHub authentication/storage. Hosting: GitHub Pages and your domain provider. Visitors load no third-party scripts, fonts, maps or social embeds. Venue links and email links only leave the site when selected.
+Build time: npm packages in the lockfile (Astro, sitemap, schema tooling, image tooling, MapLibre and tests), GitHub Actions and its official Astro deployment action. Editing: hosted Pages CMS and GitHub authentication/storage. Event-address validation uses OpenStreetMap’s public Nominatim service during GitHub Actions runs. Hosting: GitHub Pages and your domain provider. Public event pages load OpenFreeMap map data through bundled MapLibre; OpenFreeMap needs no API key but does not offer an SLA. Venue links and email links only leave the site when selected.
 
 The hosted Pages CMS provider has its own backend and authentication infrastructure; there is no CMS backend or database to deploy or maintain in this repository. The public website remains available independently of the CMS service.

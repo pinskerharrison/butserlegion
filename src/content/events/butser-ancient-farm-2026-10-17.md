@@ -6,6 +6,10 @@ startTime: "10:00"
 endTime: "16:00"
 venue: "Butser Ancient Farm"
 address: "Chalton Lane, Chalton, Waterlooville, Hampshire, PO8 0BG"
+mapLocationMode: automatic
+latitude: 50.943
+longitude: -0.977
+geocodedAddress: "Chalton Lane, Chalton, Waterlooville, Hampshire, PO8 0BG"
 summary: "Meet the Butser IX Legion at our home in Hampshire."
 externalUrl: "https://www.butserancientfarm.co.uk/"
 featured: true

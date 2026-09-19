@@ -12,7 +12,7 @@ Choose **Homepage**. Edit the heading, introduction and additional copy in the n
 2. Enter its name. Pages CMS generates the event filename and URL from the start date and event name, so there is no URL field to maintain. Keep the event name stable after publication to avoid changing its URL. Existing events retain their legacy URLs.
 3. Pick the date. Leave End date blank for a one-day event.
 4. Enter UK local times using the 24-hour clock: `10:00`, `14:30` or `16:00`. End time is optional. For an event continuing after midnight, select the next day as its end date.
-5. Add the venue name and full address, including postcode.
+5. Add the venue name and full public address, including postcode. When you save, the site validates the address and creates the map pin. If the pin needs moving, choose **Use coordinates below** and enter both decimal coordinates. Choose **Do not publish a map** for a private location; do not put a private address in the public event entry.
 6. Write a short description and a fuller explanation. Mention booking requirements, private attendance, admission arrangements and anything visitors need to know. Do not invent a ticket price.
 7. Optionally choose a photograph, add its description, and paste the full HTTPS venue or booking link.
 8. Turn on Featured if wanted. It adds a small label; date order stays the same.

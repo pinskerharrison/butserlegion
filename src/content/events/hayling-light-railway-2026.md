@@ -6,6 +6,10 @@ startTime: "10:00"
 endTime: "16:00"
 venue: "Hayling Seaside Railway"
 address: "Eastoke station, Hayling Island, PO11 9HL"
+mapLocationMode: automatic
+latitude: 50.782486
+longitude: -0.968888
+geocodedAddress: "Eastoke station, Hayling Island, PO11 9HL"
 summary: "Meet the Legion at Hayling Light Railway."
 externalUrl: "https://haylinglightrailway.wixsite.com/ehlr"
 featured: true

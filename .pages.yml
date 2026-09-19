@@ -62,7 +62,11 @@ content:
         description: 'Enter 24-hour time, for example 16:00. For overnight events also set the end date.'
         pattern: '^([01][0-9]|2[0-3]):[0-5][0-9]$'
       - {name: venue, label: Venue name, type: string, required: true}
-      - {name: address, label: Address and postcode, type: text, required: true}
+      - {name: address, label: Public venue address, type: text, required: true, description: 'Use the full public address and postcode. The site validates it and creates the map pin when you save.'}
+      - {name: mapLocationMode, label: Map location, type: select, default: automatic, options: {values: [{name: automatic, label: Create from the address}, {name: manual, label: Use coordinates below}, {name: none, label: Do not publish a map}]}, description: 'Use manual only to move the pin to a precise public meeting point. Choose no map for private addresses.'}
+      - {name: latitude, label: Map latitude override, type: number, options: {min: -90, max: 90}, description: 'Required only for a manual pin. Use decimal degrees, for example 50.943.'}
+      - {name: longitude, label: Map longitude override, type: number, options: {min: -180, max: 180}, description: 'Required only for a manual pin. Use decimal degrees, for example -0.977.'}
+      - {name: geocodedAddress, label: Validated map address, type: string, hidden: true, readonly: true}
       - {name: summary, label: Short description, type: text, required: true, description: One or two sentences shown in the event list. State clearly if this is a private or prebooked event.}
       - {name: body, label: Full event description, type: rich-text, required: true}
       - {name: image, label: Event photograph (optional), type: image}

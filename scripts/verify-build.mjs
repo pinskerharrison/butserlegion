@@ -12,7 +12,11 @@ let links = 0;
 for (const file of htmlFiles) {
   const html = await readFile(file,'utf8');
   assert.ok(!/gamstop|casino|gambling|wp-content|wp-includes|butserixlegion\.com/i.test(html), `Unwanted old-site content in ${file}`);
-  assert.ok(!/<script\b(?![^>]*type="application\/ld\+json")/i.test(html), `Unexpected browser script in ${file}`);
+  for (const script of html.matchAll(/<script\b[^>]*>/gi)) {
+    if (/type="application\/ld\+json"/i.test(script[0])) continue;
+    const source = script[0].match(/src="([^"]+)"/i)?.[1];
+    assert.match(source || '', /^\/butserlegion\/_astro\/[a-zA-Z0-9._-]+\.js$/, `Unexpected browser script in ${file}`);
+  }
   for (const match of html.matchAll(/(?:href|src)="([^"#]+)(?:#[^"]*)?"/g)) {
     const value = match[1].replace(/&amp;/g,'&');
     if (!value.startsWith('/') || value.startsWith('//')) continue;
@@ -51,4 +55,9 @@ for (const [from,to] of Object.entries(redirects)) {
 }
 assert.equal((await readFile('dist/CNAME','utf8')).trim(),'butserlegion.co.uk');
 assert.ok(files.some(f=>f.endsWith('sitemap-index.xml')));
+const publicEvent = await readFile('dist/events/hayling-light-railway-2026/index.html', 'utf8');
+const privateEvent = await readFile('dist/events/christmas-party-2026/index.html', 'utf8');
+assert.match(publicEvent, /data-event-map/);
+assert.match(publicEvent, /Open this location in OpenStreetMap/);
+assert.doesNotMatch(privateEvent, /data-event-map|Open this location in OpenStreetMap/);
 console.log(`Verified ${htmlFiles.length} HTML files, ${links} internal links/assets, redirects, metadata, image dimensions and clean static output.`);

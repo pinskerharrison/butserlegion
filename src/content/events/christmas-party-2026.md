@@ -7,6 +7,7 @@ startTime: 10:00
 endTime: 16:00
 venue: Scanlan's house
 address: Scanlans house
+mapLocationMode: none
 summary: Legion Christmas party
 featured: false
 cancelled: false

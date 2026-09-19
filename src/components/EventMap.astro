@@ -1,0 +1,37 @@
+---
+interface Props {
+  venue: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+}
+
+const { venue, address, latitude, longitude } = Astro.props;
+const openStreetMapUrl = `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=16/${latitude}/${longitude}`;
+---
+
+<section class="event-map section-wrap" aria-labelledby="event-map-heading">
+  <div class="event-map__heading">
+    <h2 id="event-map-heading">Find the venue</h2>
+    <p>{venue}, {address}</p>
+  </div>
+  <div class="event-map__canvas" data-event-map data-latitude={latitude} data-longitude={longitude} data-venue={venue} aria-label={`Map showing ${venue}`}>
+    <p>Loading map of {venue}.</p>
+  </div>
+  <a class="text-link" href={openStreetMapUrl}>Open this location in OpenStreetMap</a>
+</section>
+
+<script>
+  import maplibregl from 'maplibre-gl';
+
+  document.querySelectorAll<HTMLElement>('[data-event-map]').forEach((element) => {
+    const latitude = Number(element.dataset.latitude);
+    const longitude = Number(element.dataset.longitude);
+    const venue = element.dataset.venue;
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
+
+    const map = new maplibregl.Map({ container: element, style: 'https://tiles.openfreemap.org/styles/liberty', center: [longitude, latitude], zoom: 14, interactive: false });
+    new maplibregl.Marker({ color: '#651f2b' }).setLngLat([longitude, latitude]).setPopup(new maplibregl.Popup({ offset: 24 }).setText(venue || 'Event venue')).addTo(map);
+    map.once('load', () => element.classList.add('event-map__canvas--ready'));
+  });
+</script>

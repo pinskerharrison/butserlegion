@@ -23,12 +23,13 @@ test('every CMS path and stored field matches real content, including images', (
 });
 test('all required event controls exist with date widgets and image picker', () => {
   const fields = config.content.find(e => e.name === 'events').fields;
-  for (const name of ['title','startDate','endDate','startTime','endTime','venue','address','summary','body','image','imageAlt','externalUrl','featured','cancelled']) assert.ok(fields.some(f=>f.name===name), name);
+  for (const name of ['title','startDate','endDate','startTime','endTime','venue','address','mapLocationMode','latitude','longitude','geocodedAddress','summary','body','image','imageAlt','externalUrl','featured','cancelled']) assert.ok(fields.some(f=>f.name===name), name);
   assert.equal(fields.find(f=>f.name==='startDate').type,'date');
   assert.equal(fields.find(f=>f.name==='image').type,'image');
   assert.equal(fields.find(f=>f.name==='body').type,'rich-text');
   assert.equal(config.content.find(e => e.name === 'events').filename, '{fields.startDate}-{primary}.md');
   assert.equal(fields.find(f=>f.name==='slug')?.hidden, true, 'Legacy slugs are hidden from editors');
+  assert.equal(fields.find(f=>f.name==='mapLocationMode')?.default, 'automatic');
 });
 test('deployment builds main and scheduled updates, with restricted deployment permission', () => {
   const workflow = parse(readFileSync('.github/workflows/deploy.yml','utf8'));
@@ -39,4 +40,11 @@ test('deployment builds main and scheduled updates, with restricted deployment p
   assert.equal(workflow.permissions.contents,'read');
   assert.equal(workflow.jobs.deploy.permissions.pages,'write');
   assert.match(workflow.jobs.deploy.if,/refs\/heads\/main/);
+});
+test('public event addresses are validated and mapped before coordinates are committed', () => {
+  const workflow = parse(readFileSync('.github/workflows/geocode-events.yml', 'utf8'));
+  assert.deepEqual(workflow.on.push.branches, ['main']);
+  assert.equal(workflow.permissions.contents, 'write');
+  assert.ok(workflow.on.push.paths.includes('src/content/events/**'));
+  assert.ok(workflow.jobs.geocode.steps.some(step => step.run === 'node scripts/geocode-events.mjs --write'));
 });
