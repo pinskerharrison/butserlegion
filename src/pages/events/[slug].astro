@@ -4,18 +4,19 @@ import { withBase } from '../../lib/paths';
 import Layout from '../../layouts/Layout.astro';
 import Photo from '../../components/Photo.astro';
 import Arrow from '../../components/Arrow.astro';
-import { formatDate, isUpcoming, londonDateTime } from '../../lib/events.mjs';
+import { eventSlug, formatDate, isUpcoming, londonDateTime } from '../../lib/events.mjs';
 export async function getStaticPaths() {
   const events = await getCollection('events');
-  const slugs = events.map(e => e.data.slug);
+  const slugs = events.map(eventSlug);
   if (new Set(slugs).size !== slugs.length) throw new Error('Event slugs must be unique.');
   if (slugs.includes('archive')) throw new Error('The event slug archive is reserved.');
-  return events.map(event => ({ params: { slug: event.data.slug }, props: { event } }));
+  return events.map(event => ({ params: { slug: eventSlug(event) }, props: { event } }));
 }
 const { event } = Astro.props;
 const e = event.data;
 const { Content } = await render(event);
-const structured = { '@context': 'https://schema.org', '@type': 'Event', name: e.title, description: e.summary, startDate: londonDateTime(e.startDate, e.startTime), ...(e.endTime ? { endDate: londonDateTime(e.endDate || e.startDate, e.endTime) } : e.endDate ? { endDate: e.endDate } : {}), eventStatus: `https://schema.org/${e.cancelled ? 'EventCancelled' : 'EventScheduled'}`, eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', url: new URL(withBase(`/events/${e.slug}/`), Astro.site).href, location: { '@type': 'Place', name: e.venue, address: e.address }, organizer: { '@type': 'Organization', name: 'Butser IX Legion', url: Astro.site?.href } };
+const slug = eventSlug(event);
+const structured = { '@context': 'https://schema.org', '@type': 'Event', name: e.title, description: e.summary, startDate: londonDateTime(e.startDate, e.startTime), ...(e.endTime ? { endDate: londonDateTime(e.endDate || e.startDate, e.endTime) } : e.endDate ? { endDate: e.endDate } : {}), eventStatus: `https://schema.org/${e.cancelled ? 'EventCancelled' : 'EventScheduled'}`, eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', url: new URL(withBase(`/events/${slug}/`), Astro.site).href, location: { '@type': 'Place', name: e.venue, address: e.address }, organizer: { '@type': 'Organization', name: 'Butser IX Legion', url: Astro.site?.href } };
 ---
 <Layout title={e.title} description={e.summary}>
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(structured).replace(/</g, '\u003c')} />

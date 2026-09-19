@@ -24,7 +24,7 @@ content:
     type: collection
     path: src/content/events
     format: yaml-frontmatter
-    filename: '{fields.slug}.md'
+    filename: '{fields.startDate}-{primary}.md'
     subfolders: false
     view:
       primary: title
@@ -34,11 +34,11 @@ content:
     fields:
       - {name: title, label: Event name, type: string, required: true}
       - name: slug
-        label: Event web address name
+        label: Generated URL (legacy entries only)
         type: string
-        required: true
-        description: 'A unique short name, for example butser-farm-july-2027. Use lowercase letters, numbers and hyphens. Keep this unchanged after publishing to preserve links. Do not use archive.'
-        pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+        hidden: true
+        readonly: true
+        description: Existing event URLs are preserved. New event URLs are generated from the date and title.
       - name: startDate
         label: Start date
         type: date

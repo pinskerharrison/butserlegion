@@ -23,10 +23,12 @@ test('every CMS path and stored field matches real content, including images', (
 });
 test('all required event controls exist with date widgets and image picker', () => {
   const fields = config.content.find(e => e.name === 'events').fields;
-  for (const name of ['title','slug','startDate','endDate','startTime','endTime','venue','address','summary','body','image','imageAlt','externalUrl','featured','cancelled']) assert.ok(fields.some(f=>f.name===name), name);
+  for (const name of ['title','startDate','endDate','startTime','endTime','venue','address','summary','body','image','imageAlt','externalUrl','featured','cancelled']) assert.ok(fields.some(f=>f.name===name), name);
   assert.equal(fields.find(f=>f.name==='startDate').type,'date');
   assert.equal(fields.find(f=>f.name==='image').type,'image');
   assert.equal(fields.find(f=>f.name==='body').type,'rich-text');
+  assert.equal(config.content.find(e => e.name === 'events').filename, '{fields.startDate}-{primary}.md');
+  assert.equal(fields.find(f=>f.name==='slug')?.hidden, true, 'Legacy slugs are hidden from editors');
 });
 test('deployment builds main and scheduled updates, with restricted deployment permission', () => {
   const workflow = parse(readFileSync('.github/workflows/deploy.yml','utf8'));

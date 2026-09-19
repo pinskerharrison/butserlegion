@@ -20,3 +20,6 @@ export function londonDateTime(day, time) {
   const zone = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', timeZoneName: 'shortOffset' }).formatToParts(noon).find(p => p.type === 'timeZoneName')?.value;
   return `${day}T${time}:00${zone === 'GMT+1' ? '+01:00' : '+00:00'}`;
 }
+export function eventSlug(event) {
+  return event.data.slug || event.id.replace(/\.md$/, '');
+}

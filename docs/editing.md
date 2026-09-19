@@ -9,7 +9,7 @@ Choose **Homepage**. Edit the heading, introduction and additional copy in the n
 ## Add an event
 
 1. Open **Events** and choose the option to add a new entry.
-2. Enter its name and a short unique web address name, such as `butser-farm-july-2027`. This is a form field, not a file you need to edit. Keep it unchanged after publication.
+2. Enter its name. Pages CMS generates the event filename and URL from the start date and event name, so there is no URL field to maintain. Keep the event name stable after publication to avoid changing its URL. Existing events retain their legacy URLs.
 3. Pick the date. Leave End date blank for a one-day event.
 4. Enter UK local times using the 24-hour clock: `10:00`, `14:30` or `16:00`. End time is optional. For an event continuing after midnight, select the next day as its end date.
 5. Add the venue name and full address, including postcode.
